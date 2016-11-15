@@ -3,7 +3,13 @@ module Dom exposing (..)
 import Task exposing (Task)
 import Native.Dom
 
-type alias Selector = String
+type alias Selector =
+  String
+
+type alias Position =
+  { left : Int
+  , top : Int
+  }
 
 type alias Dimensions =
   { height : Float
@@ -18,15 +24,15 @@ type Error
   = ElementNotFound Selector
   | InvalidSelector Selector
 
-id : String -> Selector
-id value =
+idSelector : String -> Selector
+idSelector value =
   "[id='" ++ value ++ "']"
 
 --- QUERYING ----
 
-isOver : String -> Int -> Int -> Result Error Bool
-isOver selector x y =
-  Native.Dom.isOver selector x y
+isOver : String -> Position -> Result Error Bool
+isOver selector position =
+  Native.Dom.isOver selector position
 
 hasFocusedElement : Task Never Bool
 hasFocusedElement =
@@ -58,17 +64,19 @@ decodeDimensions : Json.Decoder Dimension
 
 ---- SCROLL ----
 
+decodeScrollPosition : Selector -> Json.Decoder Position
+
 scrollToX : Selector -> Task Error ()
 
 scrollToXSync : Selector -> Result Error ()
 
-getScrollX : Selector -> Task Error ()
+getScrollX : Selector -> Task Error Int
 
-getScrollXSync : Selector -> Task Error ()
+getScrollXSync : Selector -> Task Error Int
 
-getScrollY : Selector -> Task Error ()
+getScrollY : Selector -> Task Error Int
 
-getScrollYSync : Selector -> Task Error ()
+getScrollYSync : Selector -> Task Error Int
 
 
 ---- FOCUS / BLUR ----
@@ -80,4 +88,20 @@ focusSync : Selector -> Result Error ()
 blur : Selector -> Task Error ()
 
 blurSync : Selector -> Result Error ()
+
+---- GET / SET VALUE ----
+
+setValue : Selector -> String -> Task Error ()
+
+setValueSync : Selector -> String -> Result Error ()
+
+getValue : Selector -> Task Error String
+
+getValueSync : Selector -> Result Error String
+
+---- SELECTION ----
+
+selectAll : Selector -> Task Error ()
+
+selectAllSync : Selector -> Result Error ()
 -}

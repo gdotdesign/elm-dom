@@ -73,13 +73,13 @@ var _gdotdesign$elm_dom$Native_Dom = function() {
   }
 
   /* Tests if the given coordinates are over the given selector */
-  var isOver = function(selector, x, y){
-    var element = document.elementFromPoint(x, y)
+  var isOver = function(selector, position){
+    var element = document.elementFromPoint(position.left, position.top)
     if (!element) { err({ ctor: "ElementNotFound", _0: selector }) }
     try {
-      ok(element.matches(selector + "," + selector + " *"))
+      return ok(element.matches(selector + "," + selector + " *"))
     } catch (error) {
-      err({ ctor: "InvalidSelector", _0: selector })
+      return err({ ctor: "InvalidSelector", _0: selector })
     }
   }
 
@@ -97,7 +97,7 @@ var _gdotdesign$elm_dom$Native_Dom = function() {
     hasFocusedElement: hasFocusedElement,
     getDimensionsSync: getDimensionsSync,
     getDimensions: getDimensions,
-    isOver: F3(isOver),
+    isOver: F2(isOver),
     nextTick: nextTick
   }
 }()
