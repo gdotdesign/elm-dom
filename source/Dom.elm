@@ -34,10 +34,15 @@ type alias Dimensions =
 
 
 {-| These are the types of errors that can occur when using these functions.
+
+  * ElementNotFound - If no element is found with the given selector
+  * InvalidSelector - If the given selector is invalid
+  * TextNotSelectable - If selectAll called on not an input or a textarea
 -}
 type Error
   = ElementNotFound Selector
   | InvalidSelector Selector
+  | TextNotSelectable Selector
 
 
 {-| Creates an ID (attribute) selector from the given string.
@@ -73,6 +78,37 @@ isOver selector position =
   Native.Dom.isOver selector position
 
 
+
+---- FOCUS / BLUR ----
+
+{-| Returns a task that focuses the given selector.
+-}
+focus : Selector -> Task Error ()
+focus selector =
+  Native.Dom.focus selector
+
+
+{-| Focuses the given selector.
+-}
+focusSync : Selector -> Result Error ()
+focusSync selector =
+  Native.Dom.focusSync selector
+
+
+{-| Returns a task that blurs the given selector.
+-}
+blur : Selector -> Task Error ()
+blur selector =
+  Native.Dom.blur
+
+
+{-| Blurs the given selector.
+-}
+blurSync : Selector -> Result Error ()
+blurSync selector =
+  Native.Dom.blurSync
+
+
 {-| Returns a tasks which returns true if there is a currently focued element,
 false otherwise.
 -}
@@ -87,6 +123,24 @@ false otherwise.
 hasFocusedElementSync : () -> Bool
 hasFocusedElementSync _ =
   Native.Dom.hasFocusedElementSync
+
+
+
+---- SELECTION ----
+
+
+{-| Returns a task that selects all text in the given selector.
+-}
+selectAll : Selector -> Task Error ()
+selectAll selector =
+  Native.Dom.selectAll selector
+
+
+{-| Selects all text in the given selector.
+-}
+selectAllSync : Selector -> Result Error ()
+selectAllSync selector =
+  Native.Dom.selectAllSync selector
 
 
 
@@ -129,24 +183,10 @@ getDimensionsSync selector =
 
    scrollIntoViewSync Selector -> Result Error ()
 
-   scrollIntoView : Selector -> Task Error ()
-
-   scrollIntoViewSync Selector -> Result Error ()
-
    scrollIntoViewIfNeeded : Selector -> Task Error ()
 
    scrollIntoViewIfNeededSync Selector -> Result Error ()
 
-
-   ---- FOCUS / BLUR ----
-
-   focus : Selector -> Task Error ()
-
-   focusSync : Selector -> Result Error ()
-
-   blur : Selector -> Task Error ()
-
-   blurSync : Selector -> Result Error ()
 
    ---- GET / SET VALUE ----
 
@@ -160,7 +200,7 @@ getDimensionsSync selector =
 
    ---- SELECTION ----
 
-   selectAll : Selector -> Task Error ()
+   setSelection : Int -> Int -> String -> Task Error ()
 
-   selectAllSync : Selector -> Result Error ()
+   setSelectionSync : Int -> Int -> String -> Task Error ()
 -}

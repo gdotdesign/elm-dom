@@ -33,21 +33,25 @@ var _gdotdesign$elm_dom$Native_Dom = function() {
     })
   }
 
-  var async = function(selector, method) {
-    return task(function(callback){
-      try {
-        callback(succeed(method(selector)))
-      } catch (error) {
-        callback(fail(error))
-      }
-    })
+  var async = function(method) {
+    return function(selector){
+      return task(function(callback){
+        try {
+          callback(succeed(method(selector)))
+        } catch (error) {
+          callback(fail(error))
+        }
+      })
+    }
   }
 
-  var sync = function(selector, method) {
-    try {
-      return ok(method(selector))
-    } catch (error) {
-      return err(error)
+  var sync = function(method) {
+    return function(selector) {
+      try {
+        return ok(method(selector))
+      } catch (error) {
+        return err(error)
+      }
     }
   }
 
@@ -60,16 +64,6 @@ var _gdotdesign$elm_dom$Native_Dom = function() {
         callback(succeed(tuple0))
       })
     })
-  }
-
-  /* Get the dimensions for an element asynchronously with a task. */
-  var getDimensions = function(selector){
-    return async(selector, getDimensionsObject)
-  }
-
-  /* Get the dimensions for an element synchronously returning a result */
-  var getDimensionsSync = function(selector){
-    return sync(selector, getDimensionsObject)
   }
 
   /* Tests if the given coordinates are over the given selector */
@@ -89,14 +83,50 @@ var _gdotdesign$elm_dom$Native_Dom = function() {
     })
   }
 
-  var hasFocusedElement = function(){
+  var hasFocusedElementSync = function(){
     return !!document.querySelector('*:focus')
   }
 
+  var focus = function(selector){
+    withElement(selector, function(element){
+      element.focus()
+      return tuple0
+    })
+  }
+
+  var blur = function(selector){
+    withElement(selector, function(element){
+      element.blur()
+      return tuple0
+    })
+  }
+
+  var selectAll = function(selector) {
+    withElement(selector, function(element){
+      if(!element.setSelectionRange){
+        throw { ctor: "TextNotSelectable", _0: selector }
+      }
+      element.setSelectionRange(0, element.value.length)
+      return tuple0
+    })
+  }
+
   return {
+    hasFocusedElementSync: hasFocusedElementSync,
     hasFocusedElement: hasFocusedElement,
-    getDimensionsSync: getDimensionsSync,
-    getDimensions: getDimensions,
+
+    getDimensionsSync: sync(getDimensionsObject),
+    getDimensions: async(getDimensionsObject),
+
+    selectAllSync : sync(selectAll),
+    selectAll : async(selectAll),
+
+    focusSync: sync(focus),
+    focus: async(focus),
+
+    blurSync: sync(blur),
+    blur: async(blur),
+
     isOver: F2(isOver),
     nextTick: nextTick
   }

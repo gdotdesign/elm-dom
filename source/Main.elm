@@ -1,3 +1,4 @@
+import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html exposing (..)
 
@@ -18,6 +19,12 @@ type Msg
   | GotDimensions (Result Dom.Error Dom.Dimensions)
   | GetDimensionsSyncFail
   | GetDimensionsFail
+  | Focus
+  | Focused (Result Dom.Error ())
+  | FocusSync
+  | SelectAll
+  | SelectAllDone (Result Dom.Error ())
+  | SelectAllSync
   | Move Mouse.Position
 
 init =
@@ -49,6 +56,30 @@ update msg model =
     GetDimensionsFail ->
       ( model, Task.attempt GotDimensions (Dom.getDimensions "1-asd") )
 
+    FocusSync ->
+      case Dom.focusSync "#input1" of
+        _ -> ( model, Cmd.none )
+
+    Focus ->
+      ( model, Task.attempt Focused (Dom.focus "#input2") )
+
+    Focused result ->
+      case result of
+        Ok _ -> (model, Cmd.none)
+        Err error -> ({ model | error = error }, Cmd.none)
+
+    SelectAllDone result ->
+      case result of
+        Ok _ -> (model, Cmd.none)
+        Err error -> ({ model | error = error }, Cmd.none)
+
+    SelectAll ->
+      ( model, Task.attempt SelectAllDone (Dom.selectAll "#input2"))
+
+    SelectAllSync ->
+      case Dom.selectAllSync "#input1" of
+        _ -> ( model, Cmd.none )
+
     Move position ->
       case Dom.isOver "button" { top = position.y, left = position.x } of
         Ok isOver -> ({ model | overButton = isOver }, Cmd.none)
@@ -65,6 +96,19 @@ view model =
     , div []
       [ button [ onClick GetDimensionsSyncFail ] [ text "Get Dimensions Sync Fail" ]
       , button [ onClick GetDimensionsFail ] [ text "Get Dimensions Fail" ]
+      ]
+
+    , input [ id "input1" ] []
+    , input [ id "input2" ] []
+
+    , div []
+      [ button [ onClick FocusSync ] [ text "Focus Sync" ]
+      , button [ onClick Focus ] [ text "Focus" ]
+      ]
+
+    , div []
+      [ button [ onClick SelectAllSync ] [ text "Select All Sync" ]
+      , button [ onClick SelectAll ] [ text "Select All" ]
       ]
     ]
 
