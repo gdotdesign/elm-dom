@@ -34,10 +34,12 @@ var _gdotdesign$elm_dom$Native_Dom = function() {
   }
 
   var async = function(method) {
-    return function(selector){
+    return function(){
+      var args = Array.prototype.slice.call(arguments)
+
       return task(function(callback){
         try {
-          callback(succeed(method(selector)))
+          callback(succeed(method.apply({}, args)))
         } catch (error) {
           callback(fail(error))
         }
@@ -46,9 +48,11 @@ var _gdotdesign$elm_dom$Native_Dom = function() {
   }
 
   var sync = function(method) {
-    return function(selector) {
+    return function() {
+      var args = Array.prototype.slice.call(arguments)
+
       try {
-        return ok(method(selector))
+        return ok(method.apply({}, args))
       } catch (error) {
         return err(error)
       }
@@ -111,12 +115,32 @@ var _gdotdesign$elm_dom$Native_Dom = function() {
     })
   }
 
+  var scrollToX = function(position, selector){
+    withElement(selector, function(element){
+      element.scrollLeft = position
+      return tuple0
+    })
+  }
+
+  var scrollToY = function(position, selector){
+    withElement(selector, function(element){
+      element.scrollTop = position
+      return tuple0
+    })
+  }
+
   return {
     hasFocusedElementSync: hasFocusedElementSync,
     hasFocusedElement: hasFocusedElement,
 
     getDimensionsSync: sync(getDimensionsObject),
     getDimensions: async(getDimensionsObject),
+
+    scrollToXSync: F2(sync(scrollToX)),
+    scrollToX: F2(async(scrollToX)),
+
+    scrollToYSync: F2(sync(scrollToY)),
+    scrollToY: F2(async(scrollToY)),
 
     selectAllSync : sync(selectAll),
     selectAll : async(selectAll),

@@ -26,6 +26,8 @@ type Msg
   | SelectAllDone (Result Dom.Error ())
   | SelectAllSync
   | Move Mouse.Position
+  | ScrollToXSync
+  | ScrollToYSync
 
 init =
   { overButton = False
@@ -80,6 +82,16 @@ update msg model =
       case Dom.selectAllSync "#input1" of
         _ -> ( model, Cmd.none )
 
+    ScrollToXSync ->
+      case Dom.scrollToXSync 50 "#scrollContainer" of
+        Ok _ -> (model, Cmd.none)
+        Err error -> ({ model | error = error }, Cmd.none)
+
+    ScrollToYSync ->
+      case Dom.scrollToYSync 50 "#scrollContainer" of
+        Ok _ -> (model, Cmd.none)
+        Err error -> ({ model | error = error }, Cmd.none)
+
     Move position ->
       case Dom.isOver "button" { top = position.y, left = position.x } of
         Ok isOver -> ({ model | overButton = isOver }, Cmd.none)
@@ -109,6 +121,27 @@ view model =
     , div []
       [ button [ onClick SelectAllSync ] [ text "Select All Sync" ]
       , button [ onClick SelectAll ] [ text "Select All" ]
+      ]
+
+    , div
+      [ style
+        [("width", "300px")
+        ,("height", "300px")
+        ,("overflow", "scroll")
+        ]
+      , id "scrollContainer"
+      ]
+      [ div
+        [ style
+          [("width", "500px")
+          ,("height", "500px")
+          ]
+        ] []
+      ]
+
+    , div []
+      [ button [ onClick ScrollToXSync ] [ text "ScrollToX Sync" ]
+      , button [ onClick ScrollToYSync ] [ text "ScrollToY Sync" ]
       ]
     ]
 

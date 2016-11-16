@@ -1,5 +1,30 @@
 module Dom exposing (..)
 
+{-| This package provides tasks and synchronous functions (which returns tasks)
+for querying and manipulating the DOM.
+
+# Models
+@docs Selector, Position, Dimensions
+
+# Errors
+@docs Error
+
+# Scroll
+@docs scrollToX, scrollToXSync, scrollToY, scrollToYSync
+
+# Focus
+@docs blur, blurSync, focus, focusSync, hasFocusedElement, hasFocusedElementSync
+
+# Dimensions
+@docs getDimensions, getDimensionsSync, isOver
+
+# Selection
+@docs selectAll, selectAllSync
+
+# Miscellaneous
+@docs idSelector
+-}
+
 import Task exposing (Task)
 import Native.Dom
 
@@ -80,6 +105,7 @@ isOver selector position =
 
 
 ---- FOCUS / BLUR ----
+
 
 {-| Returns a task that focuses the given selector.
 -}
@@ -164,12 +190,41 @@ getDimensionsSync selector =
 
 
 
+---- SCROLL ----
+
+
+{-| Returns a task that sets the horizontal scroll position of the element with
+the given selector.
+-}
+scrollToX : Int -> Selector -> Task Error ()
+scrollToX to selector =
+  Native.Dom.scrollToX to selector
+
+
+{-| Sets the horizontal scroll position of the element with the given selector.
+-}
+scrollToXSync : Int -> Selector -> Result Error ()
+scrollToXSync to selector =
+  Native.Dom.scrollToXSync to selector
+
+
+{-| Returns a task that sets the vertical scroll position of the element with
+the given selector.
+-}
+scrollToY : Int -> Selector -> Task Error ()
+scrollToY to selector =
+  Native.Dom.scrollToY to selector
+
+
+{-| Sets the vertical scroll position of the element with the given selector.
+-}
+scrollToYSync : Int -> Selector -> Result Error ()
+scrollToYSync to selector =
+  Native.Dom.scrollToYSync to selector
+
+
+
 {-
-   ---- SCROLL ----
-
-   scrollToX : Selector -> Task Error ()
-
-   scrollToXSync : Selector -> Result Error ()
 
    getScrollX : Selector -> Task Error Int
 
@@ -186,7 +241,6 @@ getDimensionsSync selector =
    scrollIntoViewIfNeeded : Selector -> Task Error ()
 
    scrollIntoViewIfNeededSync Selector -> Result Error ()
-
 
    ---- GET / SET VALUE ----
 
