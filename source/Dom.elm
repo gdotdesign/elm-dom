@@ -10,7 +10,9 @@ for querying and manipulating the DOM.
 @docs Error
 
 # Scroll
-@docs scrollToX, scrollToXSync, scrollToY, scrollToYSync
+@docs setScrollLeft, setScrollLeftSync, setScrollTop, setScrollTopSync
+@docs getScrollLeft, getScrollLeftSync, getScrollTop, getScrollTopSync
+@docs scrollIntoView, scrollIntoViewSync
 
 # Focus
 @docs blur, blurSync, focus, focusSync, hasFocusedElement, hasFocusedElementSync
@@ -19,7 +21,7 @@ for querying and manipulating the DOM.
 @docs getDimensions, getDimensionsSync, isOver
 
 # Selection
-@docs selectAll, selectAllSync
+@docs select, selectSync
 
 # Miscellaneous
 @docs idSelector
@@ -62,7 +64,7 @@ type alias Dimensions =
 
   * ElementNotFound - If no element is found with the given selector
   * InvalidSelector - If the given selector is invalid
-  * TextNotSelectable - If selectAll called on not an input or a textarea
+  * TextNotSelectable - If select called on not an input or a textarea
 -}
 type Error
   = ElementNotFound Selector
@@ -157,16 +159,16 @@ hasFocusedElementSync _ =
 
 {-| Returns a task that selects all text in the given selector.
 -}
-selectAll : Selector -> Task Error ()
-selectAll selector =
-  Native.Dom.selectAll selector
+select : Selector -> Task Error ()
+select selector =
+  Native.Dom.select selector
 
 
 {-| Selects all text in the given selector.
 -}
-selectAllSync : Selector -> Result Error ()
-selectAllSync selector =
-  Native.Dom.selectAllSync selector
+selectSync : Selector -> Result Error ()
+selectSync selector =
+  Native.Dom.selectSync selector
 
 
 
@@ -196,51 +198,85 @@ getDimensionsSync selector =
 {-| Returns a task that sets the horizontal scroll position of the element with
 the given selector.
 -}
-scrollToX : Int -> Selector -> Task Error ()
-scrollToX to selector =
-  Native.Dom.scrollToX to selector
+setScrollLeft : Int -> Selector -> Task Error ()
+setScrollLeft to selector =
+  Native.Dom.setScrollLeft to selector
 
 
 {-| Sets the horizontal scroll position of the element with the given selector.
 -}
-scrollToXSync : Int -> Selector -> Result Error ()
-scrollToXSync to selector =
-  Native.Dom.scrollToXSync to selector
+setScrollLeftSync : Int -> Selector -> Result Error ()
+setScrollLeftSync to selector =
+  Native.Dom.setScrollLeftSync to selector
 
 
 {-| Returns a task that sets the vertical scroll position of the element with
 the given selector.
 -}
-scrollToY : Int -> Selector -> Task Error ()
-scrollToY to selector =
-  Native.Dom.scrollToY to selector
+setScrollTop : Int -> Selector -> Task Error ()
+setScrollTop to selector =
+  Native.Dom.setScrollTop to selector
 
 
 {-| Sets the vertical scroll position of the element with the given selector.
 -}
-scrollToYSync : Int -> Selector -> Result Error ()
-scrollToYSync to selector =
-  Native.Dom.scrollToYSync to selector
+setScrollTopSync : Int -> Selector -> Result Error ()
+setScrollTopSync to selector =
+  Native.Dom.setScrollTopSync to selector
+
+
+{-| Returns a task that scrolls the parent elements of the given selector so
+the the element with the given selector will be visible.
+-}
+scrollIntoView : Selector -> Task Error ()
+scrollIntoView selector =
+  Native.Dom.scrollIntoView selector
+
+
+{-| Scrolls the parent elements of the given selector so the the element with
+the given selector will be visible.
+-}
+scrollIntoViewSync : Selector -> Result Error ()
+scrollIntoViewSync selector =
+  Native.Dom.scrollIntoViewSync selector
+
+
+{-| Returns a task that gets the horizontal scroll position of the element with
+the given selector.
+-}
+getScrollLeft : Selector -> Task Error Int
+getScrollLeft selector =
+  Native.Dom.getScrollLeft selector
+
+
+{-| Gets the horizontal scroll position of the element with the given selector.
+-}
+getScrollLeftSync : Selector -> Result Error Int
+getScrollLeftSync selector =
+  Native.Dom.getScrollLeftSync selector
+
+
+{-| Returns a task that gets the vertical scroll position of the element with
+the given selector.
+-}
+getScrollTop : Selector -> Task Error Int
+getScrollTop selector =
+  Native.Dom.getScrollTop selector
+
+
+{-| Gets the vertical scroll position of the element with the given selector.
+-}
+getScrollTopSync : Selector -> Result Error Int
+getScrollTopSync selector =
+  Native.Dom.getScrollTopSync selector
 
 
 
 {-
 
-   getScrollX : Selector -> Task Error Int
-
-   getScrollXSync : Selector -> Task Error Int
-
-   getScrollY : Selector -> Task Error Int
-
-   getScrollYSync : Selector -> Task Error Int
-
-   scrollIntoView : Selector -> Task Error ()
-
-   scrollIntoViewSync Selector -> Result Error ()
-
    scrollIntoViewIfNeeded : Selector -> Task Error ()
 
-   scrollIntoViewIfNeededSync Selector -> Result Error ()
+   scrollIntoViewIfNeededSync : Selector -> Result Error ()
 
    ---- GET / SET VALUE ----
 

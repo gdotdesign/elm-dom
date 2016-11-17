@@ -92,40 +92,59 @@ var _gdotdesign$elm_dom$Native_Dom = function() {
   }
 
   var focus = function(selector){
-    withElement(selector, function(element){
+    return withElement(selector, function(element){
       element.focus()
       return tuple0
     })
   }
 
   var blur = function(selector){
-    withElement(selector, function(element){
+    return withElement(selector, function(element){
       element.blur()
       return tuple0
     })
   }
 
-  var selectAll = function(selector) {
-    withElement(selector, function(element){
-      if(!element.setSelectionRange){
+  var select = function(selector) {
+    return withElement(selector, function(element){
+      if(!element.select){
         throw { ctor: "TextNotSelectable", _0: selector }
       }
-      element.setSelectionRange(0, element.value.length)
+      element.select()
       return tuple0
     })
   }
 
-  var scrollToX = function(position, selector){
-    withElement(selector, function(element){
+  var setScrollLeft = function(position, selector){
+    return withElement(selector, function(element){
       element.scrollLeft = position
       return tuple0
     })
   }
 
-  var scrollToY = function(position, selector){
-    withElement(selector, function(element){
+  var setScrollTop = function(position, selector){
+    return withElement(selector, function(element){
       element.scrollTop = position
       return tuple0
+    })
+  }
+
+  var scrollIntoView = function(selector) {
+    return withElement(selector, function(element){
+      element.scrollIntoView()
+      return tuple0
+    })
+  }
+
+  var getScrollLeft = function(selector){
+    return withElement(selector, function(element){
+      return element.scrollLeft
+    })
+  }
+
+  var getScrollTop = function(selector){
+    return withElement(selector, function(element){
+      return element.scrollTop
     })
   }
 
@@ -136,14 +155,23 @@ var _gdotdesign$elm_dom$Native_Dom = function() {
     getDimensionsSync: sync(getDimensionsObject),
     getDimensions: async(getDimensionsObject),
 
-    scrollToXSync: F2(sync(scrollToX)),
-    scrollToX: F2(async(scrollToX)),
+    scrollIntoViewSync: sync(scrollIntoView),
+    scrollIntoView: async(scrollIntoView),
 
-    scrollToYSync: F2(sync(scrollToY)),
-    scrollToY: F2(async(scrollToY)),
+    setScrollLeftSync: F2(sync(setScrollLeft)),
+    setScrollLeft: F2(async(setScrollLeft)),
 
-    selectAllSync : sync(selectAll),
-    selectAll : async(selectAll),
+    setScrollTopSync: F2(sync(setScrollTop)),
+    setScrollTop: F2(async(setScrollTop)),
+
+    getScrollLeftSync: sync(getScrollLeft),
+    getScrollLeft: async(getScrollLeft),
+
+    getScrollTopSync: sync(getScrollTop),
+    getScrollTop: async(getScrollTop),
+
+    selectSync : sync(select),
+    select : async(select),
 
     focusSync: sync(focus),
     focus: async(focus),

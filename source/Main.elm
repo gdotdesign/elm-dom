@@ -2,6 +2,8 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Html exposing (..)
 
+import Json.Decode as Json
+
 import Mouse
 import Task
 
@@ -22,12 +24,14 @@ type Msg
   | Focus
   | Focused (Result Dom.Error ())
   | FocusSync
-  | SelectAll
-  | SelectAllDone (Result Dom.Error ())
-  | SelectAllSync
+  | Select
+  | SelectDone (Result Dom.Error ())
+  | SelectSync
   | Move Mouse.Position
   | ScrollToXSync
   | ScrollToYSync
+  | ScrollIntoViewSync
+  | Scrolled
 
 init =
   { overButton = False
@@ -70,27 +74,39 @@ update msg model =
         Ok _ -> (model, Cmd.none)
         Err error -> ({ model | error = error }, Cmd.none)
 
-    SelectAllDone result ->
+    SelectDone result ->
       case result of
         Ok _ -> (model, Cmd.none)
         Err error -> ({ model | error = error }, Cmd.none)
 
-    SelectAll ->
-      ( model, Task.attempt SelectAllDone (Dom.selectAll "#input2"))
+    Select ->
+      ( model, Task.attempt SelectDone (Dom.select "#input2"))
 
-    SelectAllSync ->
-      case Dom.selectAllSync "#input1" of
+    SelectSync ->
+      case Dom.selectSync "#input1" of
         _ -> ( model, Cmd.none )
 
     ScrollToXSync ->
-      case Dom.scrollToXSync 50 "#scrollContainer" of
+      case Dom.setScrollLeftSync 50 "#scrollContainer" of
         Ok _ -> (model, Cmd.none)
         Err error -> ({ model | error = error }, Cmd.none)
 
     ScrollToYSync ->
-      case Dom.scrollToYSync 50 "#scrollContainer" of
+      case Dom.setScrollTopSync 50 "#scrollContainer" of
         Ok _ -> (model, Cmd.none)
         Err error -> ({ model | error = error }, Cmd.none)
+
+    ScrollIntoViewSync ->
+      case Dom.scrollIntoViewSync "#viewElement" of
+        Ok _ -> (model, Cmd.none)
+        Err error -> ({ model | error = error }, Cmd.none)
+
+    Scrolled ->
+      let
+        _ = Debug.log "Scroll left" (Dom.getScrollLeftSync "#scrollContainer")
+        _ = Debug.log "Scroll top" (Dom.getScrollTopSync "#scrollContainer")
+      in
+        ( model, Cmd.none )
 
     Move position ->
       case Dom.isOver "button" { top = position.y, left = position.x } of
@@ -119,8 +135,8 @@ view model =
       ]
 
     , div []
-      [ button [ onClick SelectAllSync ] [ text "Select All Sync" ]
-      , button [ onClick SelectAll ] [ text "Select All" ]
+      [ button [ onClick SelectSync ] [ text "Select All Sync" ]
+      , button [ onClick Select ] [ text "Select All" ]
       ]
 
     , div
@@ -129,19 +145,34 @@ view model =
         ,("height", "300px")
         ,("overflow", "scroll")
         ]
+      , on "scroll" (Json.succeed Scrolled)
       , id "scrollContainer"
       ]
       [ div
         [ style
           [("width", "500px")
           ,("height", "500px")
+          ,("position", "relative")
           ]
-        ] []
+        ]
+        [ div
+          [ style
+            [("width", "50px")
+            ,("height", "50px")
+            ,("background", "red")
+            ,("position", "absolute")
+            ,("bottom", "0")
+            ,("right", "0")
+            ]
+          , id "viewElement"
+          ] []
+        ]
       ]
 
     , div []
       [ button [ onClick ScrollToXSync ] [ text "ScrollToX Sync" ]
       , button [ onClick ScrollToYSync ] [ text "ScrollToY Sync" ]
+      , button [ onClick ScrollIntoViewSync ] [ text "ScrollIntoViewSync Sync" ]
       ]
     ]
 
