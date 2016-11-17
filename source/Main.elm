@@ -32,6 +32,8 @@ type Msg
   | ScrollToYSync
   | ScrollIntoViewSync
   | Scrolled
+  | SetValue
+  | Input
 
 init =
   { overButton = False
@@ -108,6 +110,20 @@ update msg model =
       in
         ( model, Cmd.none )
 
+    SetValue ->
+      case Dom.setValueSync "test value" "#input1" of
+        Ok _ -> (model, Cmd.none)
+        Err error -> ({ model | error = error }, Cmd.none)
+
+    Input ->
+      case Dom.getValueSync "#input1" of
+        Ok value ->
+          let
+            _ = Debug.log "Value" value
+          in
+            (model, Cmd.none)
+        Err error -> ({ model | error = error }, Cmd.none)
+
     Move position ->
       case Dom.isOver "button" { top = position.y, left = position.x } of
         Ok isOver -> ({ model | overButton = isOver }, Cmd.none)
@@ -126,7 +142,10 @@ view model =
       , button [ onClick GetDimensionsFail ] [ text "Get Dimensions Fail" ]
       ]
 
-    , input [ id "input1" ] []
+    , input
+      [ id "input1"
+      , on "input" (Json.succeed Input)
+      ] []
     , input [ id "input2" ] []
 
     , div []
@@ -137,6 +156,10 @@ view model =
     , div []
       [ button [ onClick SelectSync ] [ text "Select All Sync" ]
       , button [ onClick Select ] [ text "Select All" ]
+      ]
+
+    , div []
+      [ button [ onClick SetValue ] [ text "Set Value" ]
       ]
 
     , div

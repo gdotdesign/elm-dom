@@ -14,6 +14,9 @@ for querying and manipulating the DOM.
 @docs getScrollLeft, getScrollLeftSync, getScrollTop, getScrollTopSync
 @docs scrollIntoView, scrollIntoViewSync
 
+# Value
+@docs setValue, setValueSync, getValue, getValueSync
+
 # Focus
 @docs blur, blurSync, focus, focusSync, hasFocusedElement, hasFocusedElementSync
 
@@ -272,21 +275,44 @@ getScrollTopSync selector =
 
 
 
+---- GET / SET VALUE ----
+
+
+{-| Returns a task that sets the value of the element with the given selector
+to the given value.
+-}
+setValue : String -> Selector -> Task Error ()
+setValue value selector =
+  Native.Dom.setValue value selector
+
+
+{-| Sets the value of the element with the given selector to the given value.
+-}
+setValueSync : String -> Selector -> Result Error ()
+setValueSync value selector =
+  Native.Dom.setValueSync value selector
+
+
+{-| Returns a task that gets the value of an element with the given selector.
+-}
+getValue : Selector -> Result Error ()
+getValue selector =
+  Native.Dom.getValueSync selector
+
+
+{-| Gets the value of an element with the given selector.
+-}
+getValueSync : Selector -> Result Error ()
+getValueSync selector =
+  Native.Dom.getValueSync selector
+
+
+
 {-
 
    scrollIntoViewIfNeeded : Selector -> Task Error ()
 
    scrollIntoViewIfNeededSync : Selector -> Result Error ()
-
-   ---- GET / SET VALUE ----
-
-   setValue : Selector -> String -> Task Error ()
-
-   setValueSync : Selector -> String -> Result Error ()
-
-   getValue : Selector -> Task Error String
-
-   getValueSync : Selector -> Result Error String
 
    ---- SELECTION ----
 

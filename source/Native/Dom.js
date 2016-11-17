@@ -148,6 +148,19 @@ var _gdotdesign$elm_dom$Native_Dom = function() {
     })
   }
 
+  var setValue = function(value, selector){
+    return withElement(selector, function(element){
+      element.value = value
+      return tuple0
+    })
+  }
+
+  var getValue = function(selector) {
+    return withElement(selector, function(element){
+      return element.value || ""
+    })
+  }
+
   return {
     hasFocusedElementSync: hasFocusedElementSync,
     hasFocusedElement: hasFocusedElement,
@@ -170,8 +183,14 @@ var _gdotdesign$elm_dom$Native_Dom = function() {
     getScrollTopSync: sync(getScrollTop),
     getScrollTop: async(getScrollTop),
 
-    selectSync : sync(select),
-    select : async(select),
+    selectSync: sync(select),
+    select: async(select),
+
+    setValueSync: F2(sync(setValue)),
+    setValue: F2(async(setValue)),
+
+    getValueSync: sync(getValue),
+    getValue: async(getValue),
 
     focusSync: sync(focus),
     focus: async(focus),
