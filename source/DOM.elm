@@ -1,4 +1,4 @@
-module Dom exposing (..)
+module DOM exposing (..)
 
 {-| This package provides tasks and synchronous functions (which returns tasks)
 for querying and manipulating the DOM.
@@ -31,7 +31,7 @@ for querying and manipulating the DOM.
 -}
 
 import Task exposing (Task)
-import Native.Dom
+import Native.DOM
 
 
 {-| All functions loop up elmements with a selector, which is just an
@@ -105,7 +105,7 @@ The JavaScript equivalent of the code above:
 -}
 isOver : String -> Position -> Result Error Bool
 isOver selector position =
-  Native.Dom.isOver selector position
+  Native.DOM.isOver selector position
 
 
 
@@ -116,28 +116,28 @@ isOver selector position =
 -}
 focus : Selector -> Task Error ()
 focus selector =
-  Native.Dom.focus selector
+  Native.DOM.focus selector
 
 
 {-| Focuses the given selector.
 -}
 focusSync : Selector -> Result Error ()
 focusSync selector =
-  Native.Dom.focusSync selector
+  Native.DOM.focusSync selector
 
 
 {-| Returns a task that blurs the given selector.
 -}
 blur : Selector -> Task Error ()
 blur selector =
-  Native.Dom.blur
+  Native.DOM.blur
 
 
 {-| Blurs the given selector.
 -}
 blurSync : Selector -> Result Error ()
 blurSync selector =
-  Native.Dom.blurSync
+  Native.DOM.blurSync
 
 
 {-| Returns a tasks which returns true if there is a currently focued element,
@@ -145,7 +145,7 @@ false otherwise.
 -}
 hasFocusedElement : Task Never Bool
 hasFocusedElement =
-  Native.Dom.hasFocusedElement
+  Native.DOM.hasFocusedElement
 
 
 {-| Returns true if there is a currently focued element,
@@ -153,7 +153,7 @@ false otherwise.
 -}
 hasFocusedElementSync : () -> Bool
 hasFocusedElementSync _ =
-  Native.Dom.hasFocusedElementSync
+  Native.DOM.hasFocusedElementSync
 
 
 
@@ -164,14 +164,14 @@ hasFocusedElementSync _ =
 -}
 select : Selector -> Task Error ()
 select selector =
-  Native.Dom.select selector
+  Native.DOM.select selector
 
 
 {-| Selects all text in the given selector.
 -}
 selectSync : Selector -> Result Error ()
 selectSync selector =
-  Native.Dom.selectSync selector
+  Native.DOM.selectSync selector
 
 
 
@@ -183,7 +183,7 @@ selector.
 -}
 getDimensions : Selector -> Task Error Dimensions
 getDimensions selector =
-  Native.Dom.getDimensions selector
+  Native.DOM.getDimensions selector
 
 
 {-| Returns the dimensions for the element with given
@@ -191,7 +191,7 @@ selector.
 -}
 getDimensionsSync : Selector -> Result Error Dimensions
 getDimensionsSync selector =
-  Native.Dom.getDimensionsSync selector
+  Native.DOM.getDimensionsSync selector
 
 
 
@@ -203,14 +203,14 @@ the given selector.
 -}
 setScrollLeft : Int -> Selector -> Task Error ()
 setScrollLeft to selector =
-  Native.Dom.setScrollLeft to selector
+  Native.DOM.setScrollLeft to selector
 
 
 {-| Sets the horizontal scroll position of the element with the given selector.
 -}
 setScrollLeftSync : Int -> Selector -> Result Error ()
 setScrollLeftSync to selector =
-  Native.Dom.setScrollLeftSync to selector
+  Native.DOM.setScrollLeftSync to selector
 
 
 {-| Returns a task that sets the vertical scroll position of the element with
@@ -218,14 +218,14 @@ the given selector.
 -}
 setScrollTop : Int -> Selector -> Task Error ()
 setScrollTop to selector =
-  Native.Dom.setScrollTop to selector
+  Native.DOM.setScrollTop to selector
 
 
 {-| Sets the vertical scroll position of the element with the given selector.
 -}
 setScrollTopSync : Int -> Selector -> Result Error ()
 setScrollTopSync to selector =
-  Native.Dom.setScrollTopSync to selector
+  Native.DOM.setScrollTopSync to selector
 
 
 {-| Returns a task that scrolls the parent elements of the given selector so
@@ -233,7 +233,7 @@ the the element with the given selector will be visible.
 -}
 scrollIntoView : Selector -> Task Error ()
 scrollIntoView selector =
-  Native.Dom.scrollIntoView selector
+  Native.DOM.scrollIntoView selector
 
 
 {-| Scrolls the parent elements of the given selector so the the element with
@@ -241,7 +241,7 @@ the given selector will be visible.
 -}
 scrollIntoViewSync : Selector -> Result Error ()
 scrollIntoViewSync selector =
-  Native.Dom.scrollIntoViewSync selector
+  Native.DOM.scrollIntoViewSync selector
 
 
 {-| Returns a task that gets the horizontal scroll position of the element with
@@ -249,14 +249,14 @@ the given selector.
 -}
 getScrollLeft : Selector -> Task Error Int
 getScrollLeft selector =
-  Native.Dom.getScrollLeft selector
+  Native.DOM.getScrollLeft selector
 
 
 {-| Gets the horizontal scroll position of the element with the given selector.
 -}
 getScrollLeftSync : Selector -> Result Error Int
 getScrollLeftSync selector =
-  Native.Dom.getScrollLeftSync selector
+  Native.DOM.getScrollLeftSync selector
 
 
 {-| Returns a task that gets the vertical scroll position of the element with
@@ -264,14 +264,14 @@ the given selector.
 -}
 getScrollTop : Selector -> Task Error Int
 getScrollTop selector =
-  Native.Dom.getScrollTop selector
+  Native.DOM.getScrollTop selector
 
 
 {-| Gets the vertical scroll position of the element with the given selector.
 -}
 getScrollTopSync : Selector -> Result Error Int
 getScrollTopSync selector =
-  Native.Dom.getScrollTopSync selector
+  Native.DOM.getScrollTopSync selector
 
 
 
@@ -283,28 +283,28 @@ to the given value.
 -}
 setValue : String -> Selector -> Task Error ()
 setValue value selector =
-  Native.Dom.setValue value selector
+  Native.DOM.setValue value selector
 
 
 {-| Sets the value of the element with the given selector to the given value.
 -}
 setValueSync : String -> Selector -> Result Error ()
 setValueSync value selector =
-  Native.Dom.setValueSync value selector
+  Native.DOM.setValueSync value selector
 
 
 {-| Returns a task that gets the value of an element with the given selector.
 -}
 getValue : Selector -> Result Error ()
 getValue selector =
-  Native.Dom.getValueSync selector
+  Native.DOM.getValueSync selector
 
 
 {-| Gets the value of an element with the given selector.
 -}
 getValueSync : Selector -> Result Error ()
 getValueSync selector =
-  Native.Dom.getValueSync selector
+  Native.DOM.getValueSync selector
 
 
 

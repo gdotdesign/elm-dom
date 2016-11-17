@@ -7,25 +7,25 @@ import Json.Decode as Json
 import Mouse
 import Task
 
-import Dom
+import DOM
 
 type alias Model =
   { overButton : Bool
-  , error : Dom.Error
-  , rect : Dom.Dimensions
+  , error : DOM.Error
+  , rect : DOM.Dimensions
   }
 
 type Msg
   = GetDimensions
   | GetDimensionsSync
-  | GotDimensions (Result Dom.Error Dom.Dimensions)
+  | GotDimensions (Result DOM.Error DOM.Dimensions)
   | GetDimensionsSyncFail
   | GetDimensionsFail
   | Focus
-  | Focused (Result Dom.Error ())
+  | Focused (Result DOM.Error ())
   | FocusSync
   | Select
-  | SelectDone (Result Dom.Error ())
+  | SelectDone (Result DOM.Error ())
   | SelectSync
   | Move Mouse.Position
   | ScrollToXSync
@@ -37,19 +37,19 @@ type Msg
 
 init =
   { overButton = False
-  , error = Dom.ElementNotFound ""
+  , error = DOM.ElementNotFound ""
   , rect = { top = 0, left = 0, right = 0, bottom = 0, width = 0, height = 0 }
   }
 
 update msg model =
   case msg of
     GetDimensionsSyncFail ->
-      case Dom.getDimensionsSync "asd" of
+      case DOM.getDimensionsSync "asd" of
         Ok rect -> ({ model | rect = rect }, Cmd.none)
         Err error -> ({ model | error = error }, Cmd.none)
 
     GetDimensionsSync ->
-      case Dom.getDimensionsSync "button" of
+      case DOM.getDimensionsSync "button" of
         Ok rect -> ({ model | rect = rect }, Cmd.none)
         Err error -> ({ model | error = error }, Cmd.none)
 
@@ -59,17 +59,17 @@ update msg model =
         Err error -> ({ model | error = error }, Cmd.none)
 
     GetDimensions ->
-      ( model, Task.attempt GotDimensions (Dom.getDimensions "button") )
+      ( model, Task.attempt GotDimensions (DOM.getDimensions "button") )
 
     GetDimensionsFail ->
-      ( model, Task.attempt GotDimensions (Dom.getDimensions "1-asd") )
+      ( model, Task.attempt GotDimensions (DOM.getDimensions "1-asd") )
 
     FocusSync ->
-      case Dom.focusSync "#input1" of
+      case DOM.focusSync "#input1" of
         _ -> ( model, Cmd.none )
 
     Focus ->
-      ( model, Task.attempt Focused (Dom.focus "#input2") )
+      ( model, Task.attempt Focused (DOM.focus "#input2") )
 
     Focused result ->
       case result of
@@ -82,41 +82,41 @@ update msg model =
         Err error -> ({ model | error = error }, Cmd.none)
 
     Select ->
-      ( model, Task.attempt SelectDone (Dom.select "#input2"))
+      ( model, Task.attempt SelectDone (DOM.select "#input2"))
 
     SelectSync ->
-      case Dom.selectSync "#input1" of
+      case DOM.selectSync "#input1" of
         _ -> ( model, Cmd.none )
 
     ScrollToXSync ->
-      case Dom.setScrollLeftSync 50 "#scrollContainer" of
+      case DOM.setScrollLeftSync 50 "#scrollContainer" of
         Ok _ -> (model, Cmd.none)
         Err error -> ({ model | error = error }, Cmd.none)
 
     ScrollToYSync ->
-      case Dom.setScrollTopSync 50 "#scrollContainer" of
+      case DOM.setScrollTopSync 50 "#scrollContainer" of
         Ok _ -> (model, Cmd.none)
         Err error -> ({ model | error = error }, Cmd.none)
 
     ScrollIntoViewSync ->
-      case Dom.scrollIntoViewSync "#viewElement" of
+      case DOM.scrollIntoViewSync "#viewElement" of
         Ok _ -> (model, Cmd.none)
         Err error -> ({ model | error = error }, Cmd.none)
 
     Scrolled ->
       let
-        _ = Debug.log "Scroll left" (Dom.getScrollLeftSync "#scrollContainer")
-        _ = Debug.log "Scroll top" (Dom.getScrollTopSync "#scrollContainer")
+        _ = Debug.log "Scroll left" (DOM.getScrollLeftSync "#scrollContainer")
+        _ = Debug.log "Scroll top" (DOM.getScrollTopSync "#scrollContainer")
       in
         ( model, Cmd.none )
 
     SetValue ->
-      case Dom.setValueSync "test value" "#input1" of
+      case DOM.setValueSync "test value" "#input1" of
         Ok _ -> (model, Cmd.none)
         Err error -> ({ model | error = error }, Cmd.none)
 
     Input ->
-      case Dom.getValueSync "#input1" of
+      case DOM.getValueSync "#input1" of
         Ok value ->
           let
             _ = Debug.log "Value" value
@@ -125,7 +125,7 @@ update msg model =
         Err error -> ({ model | error = error }, Cmd.none)
 
     Move position ->
-      case Dom.isOver "button" { top = position.y, left = position.x } of
+      case DOM.isOver "button" { top = position.y, left = position.x } of
         Ok isOver -> ({ model | overButton = isOver }, Cmd.none)
         Err error -> ({ model | error = error }, Cmd.none)
 

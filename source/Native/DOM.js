@@ -1,4 +1,4 @@
-var _gdotdesign$elm_dom$Native_Dom = function() {
+var _gdotdesign$elm_dom$Native_DOM = function() {
   var task = _elm_lang$core$Native_Scheduler.nativeBinding
   var succeed = _elm_lang$core$Native_Scheduler.succeed
   var fail = _elm_lang$core$Native_Scheduler.fail
