@@ -305,18 +305,3 @@ getValue selector =
 getValueSync : Selector -> Result Error ()
 getValueSync selector =
   Native.DOM.getValueSync selector
-
-
-
-{-
-
-   scrollIntoViewIfNeeded : Selector -> Task Error ()
-
-   scrollIntoViewIfNeededSync : Selector -> Result Error ()
-
-   ---- SELECTION ----
-
-   setSelection : Int -> Int -> String -> Task Error ()
-
-   setSelectionSync : Int -> Int -> String -> Task Error ()
--}
