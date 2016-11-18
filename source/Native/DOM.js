@@ -72,8 +72,11 @@ var _gdotdesign$elm_dom$Native_DOM = function() {
 
   /* Tests if the given coordinates are over the given selector */
   var isOver = function(selector, position){
-    var element = document.elementFromPoint(position.left, position.top)
-    if (!element) { err({ ctor: "ElementNotFound", _0: selector }) }
+    var element = document.elementFromPoint(
+      position.left - window.pageXOffset,
+      position.top - window.pageYOffset
+    )
+    if (!element) { return err({ ctor: "ElementNotFound", _0: selector }) }
     try {
       return ok(element.matches(selector + "," + selector + " *"))
     } catch (error) {
