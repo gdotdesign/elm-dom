@@ -9,7 +9,8 @@
   "scripts": {
     "docs": "elm-make --docs documentation.json",
     "install": "elm-package install -y",
-    "start": "elm-reactor -p 8002"
+    "examples-install": "cd examples && elm-package install -y",
+    "start": "cd examples && elm-reactor -p 8002"
   },
   "author": "Gusztáv Szikszai",
   "license": "BSD-2-Clause",
