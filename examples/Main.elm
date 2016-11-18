@@ -7,6 +7,7 @@ import Json.Decode as Json
 import Mouse
 import Task
 
+import DOM.Window
 import DOM
 
 type alias Model =
@@ -200,9 +201,15 @@ view model =
     ]
 
 main =
-  Html.program
-    { init = (init, Cmd.none)
-    , view = view
-    , update = update
-    , subscriptions = \_ -> Mouse.moves Move
-    }
+  let
+    _ = Debug.log "window width" (DOM.Window.width ())
+    _ = Debug.log "window height" (DOM.Window.height ())
+    _ = Debug.log "window scrollTop" (DOM.Window.scrollTop ())
+    _ = Debug.log "window scrollLeft" (DOM.Window.scrollLeft ())
+  in
+    Html.program
+      { init = (init, Cmd.none)
+      , view = view
+      , update = update
+      , subscriptions = \_ -> Mouse.moves Move
+      }

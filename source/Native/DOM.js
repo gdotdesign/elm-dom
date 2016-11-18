@@ -161,6 +161,22 @@ var _gdotdesign$elm_dom$Native_DOM = function() {
     })
   }
 
+  var windowScrollTop = function(){
+    return window.pageYOffset
+  }
+
+  var windowScrollLeft = function(){
+    return window.pageXOffset
+  }
+
+  var windowWidth = function(){
+    return window.innerWidth
+  }
+
+  var windowHeight = function(){
+    return window.innerHeight
+  }
+
   return {
     hasFocusedElementSync: hasFocusedElementSync,
     hasFocusedElement: hasFocusedElement,
@@ -199,6 +215,11 @@ var _gdotdesign$elm_dom$Native_DOM = function() {
     blur: async(blur),
 
     isOver: F2(isOver),
-    nextTick: nextTick
+    nextTick: nextTick,
+
+    windowScrollLeft: windowScrollLeft,
+    windowScrollTop: windowScrollTop,
+    windowHeight: windowHeight,
+    windowWidth: windowWidth,
   }
 }()

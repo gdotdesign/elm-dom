@@ -8,6 +8,7 @@
     "source"
   ],
   "exposed-modules": [
+    "DOM.Window",
     "DOM"
   ],
   "dependencies": {
