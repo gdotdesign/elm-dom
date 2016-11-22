@@ -9,27 +9,27 @@ import Native.DOM
 
 {-| Returns the vertical scroll position of the window.
 -}
-scrollTop : () -> Int
+scrollTop : () -> Float
 scrollTop _ =
   Native.DOM.windowScrollTop ()
 
 
 {-| Returns the horizontal scroll position of the window.
 -}
-scrollLeft : () -> Int
+scrollLeft : () -> Float
 scrollLeft _ =
   Native.DOM.windowScrollLeft ()
 
 
 {-| Returns the width of the window.
 -}
-width : () -> Int
+width : () -> Float
 width _ =
   Native.DOM.windowWidth ()
 
 
 {-| Returns the height of the window.
 -}
-height : () -> Int
+height : () -> Float
 height _ =
   Native.DOM.windowHeight ()
