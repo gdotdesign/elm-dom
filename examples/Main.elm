@@ -126,7 +126,7 @@ update msg model =
         Err error -> ({ model | error = error }, Cmd.none)
 
     Move position ->
-      case DOM.isOver "button" { top = position.y, left = position.x } of
+      case DOM.isOver "button" { top = toFloat position.y, left = toFloat position.x } of
         Ok isOver -> ({ model | overButton = isOver }, Cmd.none)
         Err error -> ({ model | error = error }, Cmd.none)
 

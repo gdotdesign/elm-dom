@@ -45,8 +45,8 @@ type alias Selector =
 ) because they are used by CSS.
 -}
 type alias Position =
-  { left : Int
-  , top : Int
+  { left : Float
+  , top : Float
   }
 
 
