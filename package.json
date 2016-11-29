@@ -1,6 +1,6 @@
 {
   "name": "elm-dom",
-  "version": "1.0.0",
+  "version": "0.1.5",
   "description": "Alternative package for DOM manipulation.",
   "repository": {
     "url": "git@github.com:gdotdesign/elm-dom.git",
