@@ -27,7 +27,7 @@ for querying and manipulating the DOM.
 @docs select, selectSync
 
 # Miscellaneous
-@docs idSelector
+@docs idSelector, contains
 -}
 
 import Task exposing (Task)
@@ -83,6 +83,13 @@ type Error
 idSelector : String -> Selector
 idSelector value =
   "[id='" ++ value ++ "']"
+
+
+{-| Tests if the document contains any elements that matches the given selector.
+-}
+contains : String -> Bool
+contains selector =
+  Native.DOM.contains selector
 
 
 

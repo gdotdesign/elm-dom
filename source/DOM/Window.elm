@@ -2,6 +2,12 @@ module DOM.Window exposing (..)
 
 {-| This module contains functions for getting the dimensions and scroll
 position of the `window` JavaScript object.
+
+# Scroll
+@docs scrollTop, scrollLeft
+
+# Dimensions
+@docs width, height
 -}
 
 import Native.DOM

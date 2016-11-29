@@ -180,6 +180,14 @@ var _gdotdesign$elm_dom$Native_DOM = function() {
     return window.innerHeight
   }
 
+  var contains = function(selector){
+    try {
+      return !!document.querySelector(selector)
+    } catch (error) {
+      return false
+    }
+  }
+
   return {
     hasFocusedElementSync: hasFocusedElementSync,
     hasFocusedElement: hasFocusedElement,
@@ -219,6 +227,7 @@ var _gdotdesign$elm_dom$Native_DOM = function() {
 
     isOver: F2(isOver),
     nextTick: nextTick,
+    contains: contains,
 
     windowScrollLeft: windowScrollLeft,
     windowScrollTop: windowScrollTop,

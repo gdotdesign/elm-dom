@@ -206,6 +206,9 @@ main =
     _ = Debug.log "window height" (DOM.Window.height ())
     _ = Debug.log "window scrollTop" (DOM.Window.scrollTop ())
     _ = Debug.log "window scrollLeft" (DOM.Window.scrollLeft ())
+    _ = Debug.log "has body" (DOM.contains "body")
+    _ = Debug.log "has something" (DOM.contains "something")
+    _ = Debug.log "has invalid" (DOM.contains "1-something")
   in
     Html.program
       { init = (init, Cmd.none)
