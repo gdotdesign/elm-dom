@@ -1,10 +1,12 @@
 # elm-dom
+[![Build Status](https://travis-ci.org/gdotdesign/elm-dom.svg?branch=master)](https://travis-ci.org/gdotdesign/elm-dom)
+
 Alternative package for DOM manipulation.
 
 ## Why? What's wrong with Elms DOM package?
 The official DOM package have a different mindset and some missing features (check the comparison below).
 
-This package aims to have a similar API that JavaScript developers are used to, but in a more structured way. 
+This package aims to have a similar API that JavaScript developers are used to, but in a more structured way.
 
 These APIs include:
 
@@ -14,7 +16,7 @@ These APIs include:
 - [x] [Element.focus()]() to focus elements
 - [x] [Element.blur()]() to blur elements
 
-Without some of these APIs is really difficult to create some UI interactions (dropdowns, drag & drop, etc..), and developers 
+Without some of these APIs is really difficult to create some UI interactions (dropdowns, drag & drop, etc..), and developers
 are forced to use unusal methods to replace these (maily abusing decoders as seen in [debois/elm-dom]()) which is not ideal.
 
 ## Synchronous and Asynchronous functions
@@ -38,18 +40,18 @@ If you miss some of the APIs just open an issue or leave a comment on [this issu
 ## DOM Packages Comparison
 Here you can find the features of each DOM related package.
 
-Feature	| gdotdesign/elm-dom | elm-lang/dom |	debois/elm-dom 
+Feature	| gdotdesign/elm-dom | elm-lang/dom |	debois/elm-dom
 --------|--------------------|--------------|---------------
 focus	  | x                  | x	          |
 blur    | x                  | x            |
 set horizontal scroll position|	x	| x	 |
 get horizontal scroll position|	x	| x |	x
-set vertical scroll position|	x	| x |	
+set vertical scroll position|	x	| x |
 get vertical scroll position|	x	| x |	x
-scroll an element into the viewport|	x	| 	
+scroll an element into the viewport|	x	|
 get dimensions of an element | x	| | x
-set value of an element	| x		
-get value of an element	| x		
-select all text in an input / textarea | x			
-test if an element is over the given position	| x		
-test if is there any focused element | x		
+set value of an element	| x
+get value of an element	| x
+select all text in an input / textarea | x
+test if an element is over the given position	| x
+test if is there any focused element | x
