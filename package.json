@@ -1,20 +1,11 @@
 {
-  "name": "elm-dom",
-  "version": "0.1.5",
-  "description": "Alternative package for DOM manipulation.",
-  "repository": {
-    "url": "git@github.com:gdotdesign/elm-dom.git",
-    "type": "git"
-  },
   "scripts": {
-    "docs": "elm-make --docs documentation.json",
-    "install": "elm-package install -y",
-    "examples-install": "cd examples && elm-package install -y",
-    "start": "cd examples && elm-reactor -p 8002"
+    "docs": "elm-make --docs=documentation.json",
+    "start": "elm-reactor -p 8002"
   },
-  "author": "Gusztáv Szikszai",
-  "license": "BSD-2-Clause",
   "dependencies": {
-    "elm": "^0.18.0"
+    "elm": "^0.18.0",
+    "elm-github-install": "^0.3.0",
+    "elm-spec": "gdotdesign/elm-spec"
   }
 }
