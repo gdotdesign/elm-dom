@@ -302,13 +302,13 @@ setValueSync value selector =
 
 {-| Returns a task that gets the value of an element with the given selector.
 -}
-getValue : Selector -> Result Error ()
+getValue : Selector -> Task Error String
 getValue selector =
-  Native.DOM.getValueSync selector
+  Native.DOM.getValue selector
 
 
 {-| Gets the value of an element with the given selector.
 -}
-getValueSync : Selector -> Result Error ()
+getValueSync : Selector -> Result Error String
 getValueSync selector =
   Native.DOM.getValueSync selector
