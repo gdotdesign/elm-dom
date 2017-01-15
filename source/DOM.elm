@@ -137,14 +137,14 @@ focusSync selector =
 -}
 blur : Selector -> Task Error ()
 blur selector =
-  Native.DOM.blur
+  Native.DOM.blur selector
 
 
 {-| Blurs the given selector.
 -}
 blurSync : Selector -> Result Error ()
 blurSync selector =
-  Native.DOM.blurSync
+  Native.DOM.blurSync selector
 
 
 {-| Returns a tasks which returns true if there is a currently focued element,
@@ -160,7 +160,7 @@ false otherwise.
 -}
 hasFocusedElementSync : () -> Bool
 hasFocusedElementSync _ =
-  Native.DOM.hasFocusedElementSync
+  Native.DOM.hasFocusedElementSync ()
 
 
 

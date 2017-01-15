@@ -3,9 +3,11 @@ import Spec.Assertions exposing (assert)
 import Spec.Steps exposing (click)
 import Spec.Runner
 
+import Html.Events exposing (onFocus, onClick, onWithOptions)
 import Html exposing (div, button, text, input, span)
 import Html.Attributes exposing (class, tabindex)
-import Html.Events exposing (onFocus, onClick)
+
+import Json.Decode as Json
 
 import Task
 import DOM
@@ -18,6 +20,8 @@ type Msg
   = Focused (Result DOM.Error ())
   | FocusSync String
   | Focus String
+  | Blur String
+  | CheckFocus
   | OnFocus
 
 
@@ -28,6 +32,17 @@ init _ = ( "", "" )
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg ( result, focusResult ) =
   case msg of
+    Blur selector ->
+      case DOM.blurSync selector of
+        Ok () -> ( ( result, "BLURED" ), Cmd.none )
+        Err error -> ( ( toString error, focusResult ), Cmd.none )
+
+    CheckFocus ->
+      if DOM.hasFocusedElementSync () then
+        ( ( "HAS FOCUSED", focusResult ), Cmd.none )
+      else
+        ( ( "NO FOCUSED", focusResult ), Cmd.none )
+
     OnFocus ->
       ( ( result, "FOCUSED" ), Cmd.none )
 
@@ -54,6 +69,9 @@ view (result, focusResult) =
     , button [ class "focus-tabindex", onClick (Focus "span[tabindex]") ] []
     , button [ class "focus-invalid", onClick (Focus "---**.") ] []
     , button [ class "focus-not-found", onClick (Focus "asd") ] []
+    , button [ class "check-focus", onClick CheckFocus ] []
+    , button [ class "blur-input", onClick (Blur "input") ] []
+    , button [ class "blur-span", onClick (Blur "span") ] []
     , div [ class "result" ] [ text result ]
     , div [ class "focus-result" ] [ text focusResult ]
     ]
@@ -66,16 +84,28 @@ specs =
       [ assert.containsText { text = "", selector = "div.result" }
       , assert.containsText { text = "", selector = "div.focus-result" }
       ]
+    , describe ".hasFocusedElement"
+      [ it "should return false if there is no element in focus"
+        [ click "button.check-focus"
+        , assert.containsText { text = "NO FOCUSED", selector = "div.result" }
+        ]
+      ]
     , describe ".focus"
       [ it "should focus valid elements"
         [ click "button.focus"
         , assert.containsText { text = "OK", selector = "div.result" }
         , assert.containsText { text = "FOCUSED", selector = "div.focus-result" }
+        , click "button.check-focus"
+        , assert.containsText { text = "HAS FOCUSED", selector = "div.result" }
+        , click "button.blur-input"
+        , assert.containsText { text = "BLURED", selector = "div.focus-result" }
         ]
       ,  it "should focus tabindexed elements"
         [ click "button.focus-tabindex"
         , assert.containsText { text = "OK", selector = "div.result" }
         , assert.containsText { text = "FOCUSED", selector = "div.focus-result" }
+        , click "button.check-focus"
+        , assert.containsText { text = "HAS FOCUSED", selector = "div.result" }
         ]
       , it "should return false for invalid selector"
         [ click "button.focus-invalid"
@@ -86,6 +116,8 @@ specs =
         [ click "button.focus-not-found"
         , assert.containsText { text = "ElementNotFound", selector = "div.result" }
         , assert.containsText { text = "", selector = "div.focus-result" }
+        , click "button.blur-span"
+        , assert.containsText { text = "BLURED", selector = "div.focus-result" }
         ]
       ]
     ]
