@@ -3,8 +3,8 @@ import Spec.Steps exposing (click, setValue)
 import Spec.Assertions exposing (assert)
 import Spec.Runner
 
-import Html.Attributes exposing (defaultValue, class)
 import Html exposing (input, div, button, text)
+import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 
 import Task
@@ -120,6 +120,7 @@ specs =
         ]
       ]
     ]
+
 
 main =
   Spec.Runner.runWithProgram
