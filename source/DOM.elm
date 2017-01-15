@@ -1,7 +1,7 @@
 module DOM exposing (..)
 
-{-| This package provides tasks and synchronous functions (which returns tasks)
-for querying and manipulating the DOM.
+{-| This package provides tasks and synchronous functions for querying and
+manipulating the DOM.
 
 # Models
 @docs Selector, Position, Dimensions
@@ -152,7 +152,7 @@ false otherwise.
 -}
 hasFocusedElement : Task Never Bool
 hasFocusedElement =
-  Native.DOM.hasFocusedElement
+  Native.DOM.hasFocusedElement ()
 
 
 {-| Returns true if there is a currently focued element,
