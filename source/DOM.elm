@@ -27,7 +27,7 @@ manipulating the DOM.
 @docs select, selectSync
 
 # Miscellaneous
-@docs idSelector, contains
+@docs idSelector, contains, nextAnimationFrame
 -}
 
 import Task exposing (Task)
@@ -312,3 +312,10 @@ getValue selector =
 getValueSync : Selector -> Result Error String
 getValueSync selector =
   Native.DOM.getValueSync selector
+
+
+{-| Task for running something on the next animation frame.
+-}
+nextAnimationFrame : () -> Task Never ()
+nextAnimationFrame () =
+  Native.DOM.nextTick ()
