@@ -1,6 +1,6 @@
 # elm-dom
 [![Build Status](https://travis-ci.org/gdotdesign/elm-dom.svg?branch=master)](https://travis-ci.org/gdotdesign/elm-dom)
-![Elm Package Version](https://img.shields.io/badge/elm%20package-0.1.6-brightgreen.svg)
+![Elm Package Version](https://img.shields.io/badge/elm%20package-1.0.0-brightgreen.svg)
 
 Alternative Elm package for DOM manipulation.
 
